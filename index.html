@@ -39,7 +39,7 @@
 <h2>Juice Picture</h2>
 
 <div id="adblock-warning">
-    Lütfen AdBlocku kapatın AdBlock toplam ziyaretçi sayacını engelliyor.Sitede reklam yoktur.
+    Lütfen AdBlock’u kapatın. Siteyi görüntüleyemezsiniz!
 </div>
 
 <div id="main-content">
@@ -91,20 +91,24 @@ function siyah() { ctx.fillStyle = "#000000"; }
 function beyaz() { ctx.fillStyle = "#FFFFFF"; }
 
 
-const ad = document.createElement('div');
-ad.className = 'adsbox';
-ad.style.height = '1px';
-ad.style.position = 'absolute';
-document.body.appendChild(ad);
+function detectAdBlock() {
+    let adTest = document.createElement('div');
+    adTest.className = 'adBanner';
+    adTest.style.height = '1px';
+    adTest.style.position = 'absolute';
+    document.body.appendChild(adTest);
 
-window.setTimeout(() => {
-    if (ad.offsetHeight === 0) {
-       
-        document.getElementById('main-content').style.display = 'none';
-        document.getElementById('adblock-warning').style.display = 'block';
-    }
-    document.body.removeChild(ad);
-}, 100);
+    setTimeout(() => {
+        const adStyle = window.getComputedStyle(adTest);
+        if (adStyle.display === 'none' || adTest.offsetHeight === 0) {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('adblock-warning').style.display = 'block';
+        }
+        document.body.removeChild(adTest);
+    }, 50);
+}
+
+window.onload = detectAdBlock;
 </script>
 
 </body>
