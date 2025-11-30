@@ -88,28 +88,11 @@ function siyah() { ctx.fillStyle = "#000000"; }
 function beyaz() { ctx.fillStyle = "#FFFFFF"; }
 
 
-function detectAdBlock() {
-    let adTest = document.createElement('div');
-    adTest.className = 'adBanner';
-    adTest.style.height = '1px';
-    adTest.style.position = 'absolute';
-    document.body.appendChild(adTest);
 
-    setTimeout(() => {
-        const adStyle = window.getComputedStyle(adTest);
-        if (adStyle.display === 'none' || adTest.offsetHeight === 0) {
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('adblock-warning').style.display = 'block';
-        }
-        document.body.removeChild(adTest);
-    }, 50);
-}
-
-window.onload = detectAdBlock;
-</script>
 
 </body>
 </html>
+
 
 
 
