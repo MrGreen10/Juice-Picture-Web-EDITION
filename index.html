@@ -1,32 +1,111 @@
-<title>Juice Picture</title>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Juice Picture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #canvas {
+            border:1px solid #000;
+            margin-top: 10px;
+        }
+        #controls {
+            margin: 10px 0;
+        }
+        button {
+            margin: 2px;
+            padding: 5px 10px;
+        }
+        #brushSize {
+            margin-top: 10px;
+        }
+        #adblock-warning {
+            display: none;
+            color: red;
+            font-weight: bold;
+            margin-top: 50px;
+        }
+        #main-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
 <h2>Juice Picture</h2>
-Sitenin Toplam Ziyaretçi Sayısı:
-<!-- hitwebcounter Code START -->
 
+<div id="adblock-warning">
+    Lütfen AdBlocku kapatın AdBlock toplam ziyaretçi sayacını engelliyor.Sitede reklam yoktur.
+</div>
 
-Sitenin Toplam Ziyaretçi Sayısı:  
-<img src="https://hitwebcounter.com/counter/counter.php?page=21460352&style=0009&nbdigits=5&type=page&initCount=0" title="Free Tools" Alt="Free Tools"   border="0" /></a>                                 
-                                    
-                                        
-                                          
-<button onclick="yesil()">Yeşil</button>
-<button onclick="sari()">Sarı</button>
-<button onclick="beyaz()">Beyaz</button>
-<button onclick="kirmizi()">Kırmızı</button>
-<button onclick="siyah()">Siyah</button>
+<div id="main-content">
 
+<p>Sitenin Toplam Ziyaretçi Sayısı:</p>
+<img src="https://hitwebcounter.com/counter/counter.php?page=21460352&style=0009&nbdigits=5&type=page&initCount=0" 
+     title="Free Tools" alt="Free Tools" border="0" />
 
-<canvas id="canvas" width="800" height="600" style="border:1px solid #000;"></canvas>
+<div id="controls">
+    <button onclick="yesil()">Yeşil</button>
+    <button onclick="sari()">Sarı</button>
+    <button onclick="beyaz()">Beyaz</button>
+    <button onclick="kirmizi()">Kırmızı</button>
+    <button onclick="siyah()">Siyah</button>
+</div>
+
+<canvas id="canvas" width="800" height="600"></canvas>
+<br>
+<label for="brushSize">Fırça Boyutu:</label>
 <input type="range" id="brushSize" min="1" max="50" value="5">
 
-<script src="draw.js"></script>
+</div>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let drawing = false;
+let brushSize = 5;
+
+const brushInput = document.getElementById("brushSize");
+brushInput.addEventListener("input", (e) => {
+    brushSize = e.target.value;
+});
+
+canvas.addEventListener("mousedown", () => drawing = true);
+canvas.addEventListener("mouseup", () => drawing = false);
+canvas.addEventListener("mousemove", (e) => {
+    if (!drawing) return;
+    ctx.beginPath();
+    ctx.arc(e.offsetX, e.offsetY, brushSize, 0, Math.PI*2);
+    ctx.fill();
+});
+
+function yesil() { ctx.fillStyle = "#2AFF00"; }
+function kirmizi() { ctx.fillStyle = "#FF0000"; }
+function sari() { ctx.fillStyle = "#F6FF00"; }
+function mavi() { ctx.fillStyle = "#00A9FF"; }
+function siyah() { ctx.fillStyle = "#000000"; }
+function beyaz() { ctx.fillStyle = "#FFFFFF"; }
 
 
+const ad = document.createElement('div');
+ad.className = 'adsbox';
+ad.style.height = '1px';
+ad.style.position = 'absolute';
+document.body.appendChild(ad);
 
+window.setTimeout(() => {
+    if (ad.offsetHeight === 0) {
+       
+        document.getElementById('main-content').style.display = 'none';
+        document.getElementById('adblock-warning').style.display = 'block';
+    }
+    document.body.removeChild(ad);
+}, 100);
+</script>
 
-
-
-
-
-
-
+</body>
+</html>
